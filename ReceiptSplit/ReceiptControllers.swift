@@ -25,8 +25,8 @@ final class ReceiptsViewController: StoryboardTableController, UISearchResultsUp
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? { section == 0 ? "ON YOUR DEVICE" : "Your receipts" }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            if indexPath.row == 1 { return cell("Try a sample split", detail: "Create an example to explore the whole flow", accessory: .disclosureIndicator, id: "sampleSplit", symbol: "sparkles", tint: .systemOrange) }
-            return cell("Good meals. Clear splits.", detail: "\(receipts.count) receipts · \(Money.format(receipts.reduce(0) { $0 + $1.total }))", symbol: "receipt", tint: .systemIndigo)
+            if indexPath.row == 1 { return cell("Try a sample split", detail: "Create an example to explore the whole flow", accessory: .disclosureIndicator, id: "sampleSplit", symbol: "sparkles") }
+            return cell("Good meals. Clear splits.", detail: "\(receipts.count) receipts · \(Money.format(receipts.reduce(0) { $0 + $1.total }))", symbol: "receipt")
         }
         guard !visible.isEmpty else { return cell(search.searchBar.text?.isEmpty == false ? "No matching receipts" : "Your next split starts here", detail: "Tap + to add your first receipt.") }
         let r = visible[indexPath.row]
@@ -63,7 +63,6 @@ final class ReceiptEditorViewController: StoryboardTableController {
     let keys = ["Name", "Date", "Notes", "Printed total", "CGST", "SGST", "Service charge", "Tip", "Discount", "Rounding"]
     override func viewDidLoad() {
         super.viewDidLoad(); title = receipt == nil ? "New receipt" : "Edit receipt"; editorButtons(saveID: "saveReceipt")
-        stageHeader("Bill & charges", subtitle: "Check the printed total and enter any adjustments.", symbol: "doc.text.magnifyingglass", color: .systemIndigo)
         if let r = receipt {
             values = ["Name": r.merchant, "Notes": r.notes, "Printed total": r.printedTotal.map(Money.edit) ?? "", "CGST": Money.edit(r.cgst), "SGST": Money.edit(r.sgst), "Service charge": Money.edit(r.service), "Tip": Money.edit(r.tip), "Discount": Money.edit(r.discount), "Rounding": Money.edit(r.rounding)]; date = r.date
         } else { for key in keys.dropFirst(4) { values[key] = "0.00" } }

@@ -12,33 +12,26 @@ final class StoryboardInputCell: UITableViewCell {
     @objc private func changed() { onChange?(input.text ?? "") }
 }
 
+final class StoryboardDisplayCell: UITableViewCell {
+    @IBOutlet weak var heading: UILabel!
+    @IBOutlet weak var detail: UILabel!
+    @IBOutlet weak var icon: UIImageView!
+}
+
 // Every controller is instantiated from Main.storyboard. These helpers configure
 // the storyboard's reusable table cells for dynamic, per-receipt data.
 class StoryboardTableController: UITableViewController {
     var values: [String: String] = [:]
     override func viewDidLoad() { super.viewDidLoad(); tableView.keyboardDismissMode = .interactive }
-    func cell(_ title: String, detail: String? = nil, accessory: UITableViewCell.AccessoryType = .none, id: String? = nil, symbol: String? = nil, tint: UIColor = .systemIndigo) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell")!
+    func cell(_ title: String, detail: String? = nil, accessory: UITableViewCell.AccessoryType = .none, id: String? = nil, symbol: String? = nil) -> StoryboardDisplayCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: symbol.map { "Symbol-" + $0 } ?? "Cell") as! StoryboardDisplayCell
         cell.contentView.subviews.filter { $0.tag == 977 }.forEach { $0.removeFromSuperview() }
-        cell.textLabel?.text = title; cell.detailTextLabel?.text = detail
-        cell.textLabel?.numberOfLines = 1; cell.textLabel?.font = .preferredFont(forTextStyle: .body)
+        cell.heading.text = title; cell.detail.text = detail; cell.detail.isHidden = detail == nil
+        cell.heading.numberOfLines = 1; cell.heading.font = .preferredFont(forTextStyle: .body)
         cell.accessoryType = accessory; cell.selectionStyle = .default
-        cell.imageView?.image = symbol.flatMap { UIImage(systemName: $0) }
-        cell.imageView?.tintColor = tint
+        cell.icon.isHidden = symbol == nil
         cell.accessibilityIdentifier = id
         return cell
-    }
-    func stageHeader(_ title: String, subtitle: String, symbol: String, color: UIColor) {
-        let header = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: 116))
-        header.autoresizingMask = [.flexibleWidth]
-        let icon = UIImageView(image: UIImage(systemName: symbol))
-        icon.tintColor = color; icon.contentMode = .scaleAspectFit
-        let heading = UILabel(); heading.text = title; heading.font = .preferredFont(forTextStyle: .title2); heading.adjustsFontForContentSizeCategory = true; heading.numberOfLines = 1
-        let caption = UILabel(); caption.text = subtitle; caption.font = .preferredFont(forTextStyle: .subheadline); caption.textColor = .secondaryLabel; caption.numberOfLines = 2; caption.adjustsFontForContentSizeCategory = true
-        let stack = UIStackView(arrangedSubviews: [heading, caption]); stack.axis = .vertical; stack.spacing = 5
-        for v in [icon, stack] { v.translatesAutoresizingMaskIntoConstraints = false; header.addSubview(v) }
-        NSLayoutConstraint.activate([icon.leadingAnchor.constraint(equalTo: header.leadingAnchor, constant: 22), icon.centerYAnchor.constraint(equalTo: header.centerYAnchor), icon.widthAnchor.constraint(equalToConstant: 42), icon.heightAnchor.constraint(equalToConstant: 42), stack.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 16), stack.trailingAnchor.constraint(equalTo: header.trailingAnchor, constant: -20), stack.centerYAnchor.constraint(equalTo: header.centerYAnchor)])
-        tableView.tableHeaderView = header
     }
     func field(_ key: String, placeholder: String, keyboard: UIKeyboardType = .default, id: String? = nil) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "InputCell") as! StoryboardInputCell

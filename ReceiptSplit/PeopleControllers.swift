@@ -2,7 +2,7 @@ import UIKit
 
 final class PeopleViewController: StoryboardTableController {
     var receipt: Receipt!
-    override func viewDidLoad() { super.viewDidLoad(); title = "Participants"; navigationItem.largeTitleDisplayMode = .never; stageHeader("Who’s splitting?", subtitle: "Add everyone and record payments to the merchant.", symbol: "person.2.fill", color: .systemTeal) }
+    override func viewDidLoad() { super.viewDidLoad(); title = "Participants"; navigationItem.largeTitleDisplayMode = .never }
     override func viewWillAppear(_ animated: Bool) { super.viewWillAppear(animated); tableView.reloadData() }
     override func numberOfSections(in tableView: UITableView) -> Int { 2 }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { section == 0 ? receipt.people.count + 1 : 3 }
@@ -10,9 +10,9 @@ final class PeopleViewController: StoryboardTableController {
     override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? { section == 0 ? "Record what each person paid to the merchant. Removing a participant removes their item allocations." : nil }
     override func tableView(_ tableView: UITableView, cellForRowAt p: IndexPath) -> UITableViewCell {
         if p.section == 0 {
-            if p.row == receipt.people.count { return cell("Add participant", accessory: .disclosureIndicator, id: "addPerson", symbol: "person.badge.plus", tint: .systemTeal) }
+            if p.row == receipt.people.count { return cell("Add participant", accessory: .disclosureIndicator, id: "addPerson", symbol: "person.badge.plus") }
             let person = receipt.people[p.row]
-            return cell(person.name, detail: "Paid \(Money.format(person.paid))", accessory: .disclosureIndicator, id: "person-" + person.name, symbol: "person.crop.circle.fill", tint: .systemTeal)
+            return cell(person.name, detail: "Paid \(Money.format(person.paid))", accessory: .disclosureIndicator, id: "person-" + person.name, symbol: "person.crop.circle.fill")
         }
         let paid = receipt.people.reduce(0) { $0 + $1.paid }
         let rows = [("Bill total", receipt.total), ("Recorded payments", paid), ("Remaining", receipt.total - paid)]

@@ -7,7 +7,6 @@ final class DetailViewController: StoryboardTableController, VNDocumentCameraVie
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.largeTitleDisplayMode = .never
-        stageHeader("Your split", subtitle: "Review the bill, add people, assign items and settle.", symbol: "list.bullet.clipboard", color: .systemIndigo)
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(editReceipt))
     }
     override func viewWillAppear(_ animated: Bool) { super.viewWillAppear(animated); title = receipt.merchant; tableView.reloadData() }
@@ -29,15 +28,15 @@ final class DetailViewController: StoryboardTableController, VNDocumentCameraVie
             let message = receipt.difference.map { $0 == 0 ? "Matches printed total" : "Difference: \(Money.format($0))" } ?? "Add the printed total to reconcile"
             return cell(message)
         case 1:
-            return p.row == 0 ? cell("Participants · \(receipt.people.count)", detail: "Add people and record who paid", accessory: .disclosureIndicator, id: "participantsLink", symbol: "person.2.fill", tint: .systemTeal) : cell("Review split & settle", detail: "Check shares and see who pays whom", accessory: .disclosureIndicator, id: "settlementLink", symbol: "arrow.left.arrow.right", tint: .systemGreen)
+            return p.row == 0 ? cell("Participants · \(receipt.people.count)", detail: "Add people and record who paid", accessory: .disclosureIndicator, id: "participantsLink", symbol: "person.2.fill") : cell("Review split & settle", detail: "Check shares and see who pays whom", accessory: .disclosureIndicator, id: "settlementLink", symbol: "arrow.left.arrow.right")
         case 2:
             guard p.row < receipt.items.count else { return cell("Add item", accessory: .disclosureIndicator, id: "addItem", symbol: "plus.circle.fill") }
             let item = receipt.items[p.row]
-            return cell(item.name, detail: "\(item.quantity) × \(Money.format(item.unitPrice)) · \(item.splitMode.capitalized) · \(Money.format(item.total))\(item.needsReview ? " · Check scanned value" : "")", accessory: .disclosureIndicator, id: "item-" + item.name, symbol: "fork.knife", tint: .systemOrange)
+            return cell(item.name, detail: "\(item.quantity) × \(Money.format(item.unitPrice)) · \(item.splitMode.capitalized) · \(Money.format(item.total))\(item.needsReview ? " · Check scanned value" : "")", accessory: .disclosureIndicator, id: "item-" + item.name, symbol: "fork.knife")
         case 3:
             return cell(VNDocumentCameraViewController.isSupported && p.row == 0 ? "Scan receipt" : "Import receipt photo", accessory: .disclosureIndicator, symbol: "camera.viewfinder")
         case 5:
-            let result = cell(receipt.notes); result.textLabel?.numberOfLines = 0; return result
+            let result = cell(receipt.notes); result.heading.numberOfLines = 0; return result
         default:
             let rows: [(String, Int)] = [("Subtotal", receipt.subtotal), ("CGST", receipt.cgst), ("SGST", receipt.sgst), ("Service charge", receipt.service), ("Tip", receipt.tip), ("Discount", -receipt.discount), ("Rounding", receipt.rounding), ("Printed total", receipt.printedTotal ?? 0)]
             if p.row == 8 { return cell("Edit receipt & adjustments", accessory: .disclosureIndicator, symbol: "slider.horizontal.3") }

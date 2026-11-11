@@ -9,7 +9,6 @@ final class ItemEditorViewController: StoryboardTableController {
     private let modes = [("Equal", "equal"), ("By quantity", "quantity"), ("Weighted", "weighted"), ("Custom amounts", "custom")]
     override func viewDidLoad() {
         super.viewDidLoad(); title = item == nil ? "Add item" : "Edit item"; editorButtons(saveID: "saveItem")
-        stageHeader("Assign item shares", subtitle: "Choose who shared this item and how to divide it.", symbol: "chart.pie.fill", color: .systemOrange)
         values = ["Name": item?.name ?? "", "Quantity": String(item?.quantity ?? 1), "Unit price": item.map { Money.edit($0.unitPrice) } ?? ""]
         if let item { mode = item.splitMode; everyone = item.allocations.isEmpty; shares = item.allocations.mapValues { mode == "custom" ? Money.edit($0) : String($0) } }
         inputChanged()
@@ -30,7 +29,7 @@ final class ItemEditorViewController: StoryboardTableController {
         if p.section == 0 {
             switch p.row { case 0: return field("Name", placeholder: "Item name", id: "itemNameField"); case 1: return field("Quantity", placeholder: "1", keyboard: .numberPad, id: "quantityField"); default: return field("Unit price", placeholder: "0.00", keyboard: .decimalPad) }
         }
-        if p.row == 0 { return cell("Split method", detail: modes.first { $0.1 == mode }?.0, accessory: .disclosureIndicator, id: "splitMethod", symbol: "slider.horizontal.3", tint: .systemOrange) }
+        if p.row == 0 { return cell("Split method", detail: modes.first { $0.1 == mode }?.0, accessory: .disclosureIndicator, id: "splitMethod", symbol: "slider.horizontal.3") }
         if receipt.people.isEmpty { return cell("Add participants to assign this item.") }
         if mode == "equal" && p.row == 1 { return cell("Share with everyone", accessory: everyone ? .checkmark : .none, id: "shareEveryone") }
         let person = receipt.people[p.row - (mode == "equal" ? 2 : 1)]

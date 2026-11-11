@@ -2,7 +2,7 @@
 
 This is the storyboard-based iPhone version of ReceiptSplit for the iOS lab. If you also have the earlier SwiftUI project, it uses a separate bundle identifier and local storage.
 
-Open `ReceiptSplit.xcodeproj` in Xcode and select **Main.storyboard** to inspect the navigation controller, the eight screen scenes, their segues, and the reusable text-field cells. The storyboard is the editable source; screen content populated from receipts and participants is supplied by the corresponding `UITableViewController` classes. `StoryboardSupport.swift` connects the storyboard input-cell outlets to form validation and editing. `UIKitApp.swift` starts the storyboard using the UIKit scene lifecycle.
+Open `ReceiptSplit.xcodeproj` in Xcode and select **Main.storyboard** to inspect the navigation controller, eight screen scenes, segues, headers and reusable cells. Expand a scene's Table View in the document outline to edit its header and `Symbol-…` prototype cells, including their icons, colors, labels and constraints. Receipt and participant values are supplied by the corresponding `UITableViewController` classes, which choose a prototype for each row. `StoryboardSupport.swift` connects the storyboard cell outlets to dynamic content and editing. `UIKitApp.swift` starts the storyboard using the UIKit scene lifecycle.
 
 Select the ReceiptSplit scheme and an iPhone simulator, then press Run. For a physical iPhone, select your Apple development team in Signing & Capabilities and follow Xcode’s device setup prompts. The minimum supported iOS version is 17.
 

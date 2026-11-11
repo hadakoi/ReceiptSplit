@@ -3,7 +3,7 @@ import UIKit
 final class SettlementViewController: StoryboardTableController {
     var receipt: Receipt!
     private var result: SplitResult { SplitEngine.calculate(receipt) }
-    override func viewDidLoad() { super.viewDidLoad(); title = "Split & settle"; navigationItem.largeTitleDisplayMode = .never; stageHeader("Ready to settle?", subtitle: "Reconcile the bill, then see each person’s share.", symbol: "checkmark.circle.fill", color: .systemGreen) }
+    override func viewDidLoad() { super.viewDidLoad(); title = "Split & settle"; navigationItem.largeTitleDisplayMode = .never }
     override func viewWillAppear(_ animated: Bool) { super.viewWillAppear(animated); tableView.reloadData() }
     override func numberOfSections(in tableView: UITableView) -> Int { 4 }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -20,19 +20,19 @@ final class SettlementViewController: StoryboardTableController {
     override func tableView(_ tableView: UITableView, cellForRowAt p: IndexPath) -> UITableViewCell {
         let result = result
         switch p.section {
-        case 0: return cell(result.issues.isEmpty ? "All numbers checked" : "A few things to check", detail: Money.format(receipt.total), symbol: result.issues.isEmpty ? "checkmark.seal.fill" : "exclamationmark.triangle.fill", tint: result.issues.isEmpty ? .systemGreen : .systemOrange)
-        case 1: let c = cell(result.issues[p.row], symbol: "exclamationmark.circle", tint: .systemOrange); c.textLabel?.numberOfLines = 0; return c
+        case 0: return cell(result.issues.isEmpty ? "All numbers checked" : "A few things to check", detail: Money.format(receipt.total), symbol: result.issues.isEmpty ? "checkmark.seal.fill" : "exclamationmark.triangle.fill")
+        case 1: let c = cell(result.issues[p.row], symbol: "exclamationmark.circle"); c.heading.numberOfLines = 0; return c
         case 2:
             let person = result.balances[p.row]
-            return cell("\(person.name) · \(Money.format(person.owed))", detail: "Paid \(Money.format(person.paid)) · " + (person.balance >= 0 ? "Gets back \(Money.format(person.balance))" : "Still owes \(Money.format(-person.balance))"), symbol: "person.crop.circle.fill", tint: .systemTeal)
+            return cell("\(person.name) · \(Money.format(person.owed))", detail: "Paid \(Money.format(person.paid)) · " + (person.balance >= 0 ? "Gets back \(Money.format(person.balance))" : "Still owes \(Money.format(-person.balance))"), symbol: "person.crop.circle.fill")
         default:
             let transferCount = max(result.transfers.count, 1)
             if p.row < transferCount {
                 if result.transfers.isEmpty { return cell("Everyone is settled") }
                 let transfer = result.transfers[p.row]
-                return cell("\(transfer.from) pays \(transfer.to)", detail: Money.format(transfer.amount), symbol: "arrow.right.circle.fill", tint: .systemGreen)
+                return cell("\(transfer.from) pays \(transfer.to)", detail: Money.format(transfer.amount), symbol: "arrow.right.circle.fill")
             }
-            if p.row == transferCount { return cell(receipt.reviewed ? "Receipt verified" : "Confirm review", id: "confirmReview", symbol: "checkmark.circle", tint: .systemGreen) }
+            if p.row == transferCount { return cell(receipt.reviewed ? "Receipt verified" : "Confirm review", id: "confirmReview", symbol: "checkmark.circle") }
             return cell("Share settlement", id: "shareSettlement", symbol: "square.and.arrow.up")
         }
     }
@@ -84,7 +84,7 @@ final class OCRReviewViewController: StoryboardTableController {
             let line = draft.lines[p.row]
             return cell(line.name, detail: "\(Money.format(line.amount)) · \(line.confidence < 0.8 ? "Low confidence" : "Check against receipt")", accessory: selected.contains(line.id) ? .checkmark : .none)
         default:
-            let c = cell(draft.rawText); c.textLabel?.numberOfLines = 0; c.textLabel?.font = .monospacedSystemFont(ofSize: 13, weight: .regular); return c
+            let c = cell(draft.rawText); c.heading.numberOfLines = 0; c.heading.font = .monospacedSystemFont(ofSize: 13, weight: .regular); return c
         }
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt p: IndexPath) {
