@@ -26,7 +26,7 @@ final class ReceiptsViewController: StoryboardTableController, UISearchResultsUp
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             if indexPath.row == 1 { return cell("Try a sample split", detail: "Create an example to explore the whole flow", accessory: .disclosureIndicator, id: "sampleSplit", symbol: "sparkles") }
-            return cell("Good meals. Clear splits.", detail: "\(receipts.count) receipts · \(Money.format(receipts.reduce(0) { $0 + $1.total }))", symbol: "receipt")
+            return cell("Your overview", detail: "\(receipts.count) receipts · \(Money.format(receipts.reduce(0) { $0 + $1.total }))", symbol: "receipt")
         }
         guard !visible.isEmpty else { return cell(search.searchBar.text?.isEmpty == false ? "No matching receipts" : "Your next split starts here", detail: "Tap + to add your first receipt.") }
         let r = visible[indexPath.row]
