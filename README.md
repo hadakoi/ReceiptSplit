@@ -1,6 +1,6 @@
 # ReceiptSplit — UIKit and Storyboards
 
-This is the storyboard-based iPhone version of ReceiptSplit for the iOS lab. The original SwiftUI project remains in the sibling `RecieptSplit` folder. The two apps have separate bundle identifiers and local storage.
+This is the storyboard-based iPhone version of ReceiptSplit for the iOS lab. If you also have the earlier SwiftUI project, it uses a separate bundle identifier and local storage.
 
 Open `ReceiptSplit.xcodeproj` in Xcode and select **Main.storyboard** to inspect the navigation controller, the eight screen scenes, their segues, and the reusable text-field cells. The storyboard is the editable source; screen content populated from receipts and participants is supplied by the corresponding `UITableViewController` classes. `StoryboardSupport.swift` connects the storyboard input-cell outlets to form validation and editing. `UIKitApp.swift` starts the storyboard using the UIKit scene lifecycle.
 
@@ -29,7 +29,7 @@ For a command-line run, choose an installed simulator and use:
 ```sh
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcodebuild \
   -project ReceiptSplit.xcodeproj -scheme ReceiptSplit \
-  -destination 'platform=iOS Simulator,name=iPhone 18 Pro' \
+  -destination 'platform=iOS Simulator,name=iPhone 18 Pro,OS=27.0' \
   -derivedDataPath .build CODE_SIGNING_ALLOWED=NO test
 ```
 
