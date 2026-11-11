@@ -1,0 +1,673 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="25408" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nav">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="25407"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="navScene">
+            <objects>
+                <navigationController id="nav" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="navBar">
+                        <rect key="frame" x="0.0" y="59" width="393" height="54"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Receipts" kind="relationship" relationship="rootViewController" id="rootSegue"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="navFirst" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="0.0" y="0.0"/>
+        </scene>
+        <!--Receipts View Controller-->
+        <scene sceneID="scene-Receipts">
+            <objects>
+                <tableViewController storyboardIdentifier="Receipts" id="Receipts" customClass="ReceiptsViewController" customModule="ReceiptSplit" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="56" estimatedRowHeight="56" sectionHeaderHeight="28" sectionFooterHeight="28" id="table-Receipts">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="label-Receipts" detailTextLabel="detail-Receipts" style="IBUITableViewCellStyleSubtitle" id="cell-Receipts">
+                                <rect key="frame" x="16" y="55.333332061767578" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cell-Receipts" id="content-Receipts">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" id="label-Receipts">
+                                            <rect key="frame" x="20" y="7.9999999999999982" width="33" height="20.333333333333332"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Detail" lineBreakMode="tailTruncation" id="detail-Receipts">
+                                            <rect key="frame" x="20" y="30.333333333333332" width="35" height="15.666666666666666"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="InputCell" id="inputCell-Receipts" customClass="StoryboardInputCell" customModule="ReceiptSplit" customModuleProvider="target">
+                                <rect key="frame" x="16" y="111.33333206176758" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="inputCell-Receipts" id="inputContent-Receipts">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Field" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="inputLabel-Receipts">
+                                            <rect key="frame" x="20.000000000000004" y="17.666666666666668" width="36.333333333333343" height="21.000000000000004"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Value" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="inputField-Receipts">
+                                            <rect key="frame" x="180.66666666666663" y="6" width="160.33333333333337" height="44"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="inputField-Receipts" firstAttribute="height" constant="44" id="fieldHeight-Receipts"/>
+                                        <constraint firstItem="inputField-Receipts" firstAttribute="leading" secondItem="inputContent-Receipts" secondAttribute="centerX" id="fieldLead-Receipts"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="inputField-Receipts" secondAttribute="trailing" id="fieldTrail-Receipts"/>
+                                        <constraint firstItem="inputField-Receipts" firstAttribute="centerY" secondItem="inputContent-Receipts" secondAttribute="centerY" id="fieldY-Receipts"/>
+                                        <constraint firstItem="inputLabel-Receipts" firstAttribute="centerY" secondItem="inputContent-Receipts" secondAttribute="centerY" id="labelY-Receipts"/>
+                                        <constraint firstItem="inputLabel-Receipts" firstAttribute="leading" secondItem="inputContent-Receipts" secondAttribute="leadingMargin" id="lead-Receipts"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="heading" destination="inputLabel-Receipts" id="headingOutlet-Receipts"/>
+                                    <outlet property="input" destination="inputField-Receipts" id="fieldOutlet-Receipts"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Receipts" id="data-Receipts"/>
+                            <outlet property="delegate" destination="Receipts" id="delegate-Receipts"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="item-Receipts"/>
+                    <connections>
+                        <segue destination="Detail" kind="show" identifier="showReceipt" id="Receipts-showReceipt"/>
+                        <segue destination="ReceiptEditor" kind="show" identifier="editReceipt" id="Receipts-editReceipt"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-Receipts" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="550" y="0.0"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="scene-Detail">
+            <objects>
+                <tableViewController storyboardIdentifier="Detail" id="Detail" customClass="DetailViewController" customModule="ReceiptSplit" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="56" estimatedRowHeight="56" sectionHeaderHeight="28" sectionFooterHeight="28" id="table-Detail">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="label-Detail" detailTextLabel="detail-Detail" style="IBUITableViewCellStyleSubtitle" id="cell-Detail">
+                                <rect key="frame" x="16" y="55.333332061767578" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cell-Detail" id="content-Detail">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" id="label-Detail">
+                                            <rect key="frame" x="20" y="7.9999999999999982" width="33" height="20.333333333333332"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Detail" lineBreakMode="tailTruncation" id="detail-Detail">
+                                            <rect key="frame" x="20" y="30.333333333333332" width="35" height="15.666666666666666"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="InputCell" id="inputCell-Detail" customClass="StoryboardInputCell" customModule="ReceiptSplit" customModuleProvider="target">
+                                <rect key="frame" x="16" y="111.33333206176758" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="inputCell-Detail" id="inputContent-Detail">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Field" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="inputLabel-Detail">
+                                            <rect key="frame" x="20.000000000000004" y="17.666666666666668" width="36.333333333333343" height="21.000000000000004"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Value" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="inputField-Detail">
+                                            <rect key="frame" x="180.66666666666663" y="6" width="160.33333333333337" height="44"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="inputField-Detail" firstAttribute="height" constant="44" id="fieldHeight-Detail"/>
+                                        <constraint firstItem="inputField-Detail" firstAttribute="leading" secondItem="inputContent-Detail" secondAttribute="centerX" id="fieldLead-Detail"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="inputField-Detail" secondAttribute="trailing" id="fieldTrail-Detail"/>
+                                        <constraint firstItem="inputField-Detail" firstAttribute="centerY" secondItem="inputContent-Detail" secondAttribute="centerY" id="fieldY-Detail"/>
+                                        <constraint firstItem="inputLabel-Detail" firstAttribute="centerY" secondItem="inputContent-Detail" secondAttribute="centerY" id="labelY-Detail"/>
+                                        <constraint firstItem="inputLabel-Detail" firstAttribute="leading" secondItem="inputContent-Detail" secondAttribute="leadingMargin" id="lead-Detail"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="heading" destination="inputLabel-Detail" id="headingOutlet-Detail"/>
+                                    <outlet property="input" destination="inputField-Detail" id="fieldOutlet-Detail"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Detail" id="data-Detail"/>
+                            <outlet property="delegate" destination="Detail" id="delegate-Detail"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="item-Detail"/>
+                    <connections>
+                        <segue destination="ReceiptEditor" kind="show" identifier="editReceipt" id="Detail-editReceipt"/>
+                        <segue destination="ItemEditor" kind="show" identifier="editItem" id="Detail-editItem"/>
+                        <segue destination="People" kind="show" identifier="showPeople" id="Detail-showPeople"/>
+                        <segue destination="Settlement" kind="show" identifier="showSettlement" id="Detail-showSettlement"/>
+                        <segue destination="OCRReview" kind="show" identifier="reviewOCR" id="Detail-reviewOCR"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-Detail" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1100" y="0.0"/>
+        </scene>
+        <!--New receipt-->
+        <scene sceneID="scene-ReceiptEditor">
+            <objects>
+                <tableViewController storyboardIdentifier="ReceiptEditor" id="ReceiptEditor" customClass="ReceiptEditorViewController" customModule="ReceiptSplit" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="56" estimatedRowHeight="56" sectionHeaderHeight="28" sectionFooterHeight="28" id="table-ReceiptEditor">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="label-ReceiptEditor" detailTextLabel="detail-ReceiptEditor" style="IBUITableViewCellStyleSubtitle" id="cell-ReceiptEditor">
+                                <rect key="frame" x="16" y="55.333332061767578" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cell-ReceiptEditor" id="content-ReceiptEditor">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" id="label-ReceiptEditor">
+                                            <rect key="frame" x="20" y="7.9999999999999982" width="33" height="20.333333333333332"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Detail" lineBreakMode="tailTruncation" id="detail-ReceiptEditor">
+                                            <rect key="frame" x="20" y="30.333333333333332" width="35" height="15.666666666666666"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="InputCell" id="inputCell-ReceiptEditor" customClass="StoryboardInputCell" customModule="ReceiptSplit" customModuleProvider="target">
+                                <rect key="frame" x="16" y="111.33333206176758" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="inputCell-ReceiptEditor" id="inputContent-ReceiptEditor">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Field" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="inputLabel-ReceiptEditor">
+                                            <rect key="frame" x="20.000000000000004" y="17.666666666666668" width="36.333333333333343" height="21.000000000000004"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Value" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="inputField-ReceiptEditor">
+                                            <rect key="frame" x="180.66666666666663" y="6" width="160.33333333333337" height="44"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="inputField-ReceiptEditor" firstAttribute="height" constant="44" id="fieldHeight-ReceiptEditor"/>
+                                        <constraint firstItem="inputField-ReceiptEditor" firstAttribute="leading" secondItem="inputContent-ReceiptEditor" secondAttribute="centerX" id="fieldLead-ReceiptEditor"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="inputField-ReceiptEditor" secondAttribute="trailing" id="fieldTrail-ReceiptEditor"/>
+                                        <constraint firstItem="inputField-ReceiptEditor" firstAttribute="centerY" secondItem="inputContent-ReceiptEditor" secondAttribute="centerY" id="fieldY-ReceiptEditor"/>
+                                        <constraint firstItem="inputLabel-ReceiptEditor" firstAttribute="centerY" secondItem="inputContent-ReceiptEditor" secondAttribute="centerY" id="labelY-ReceiptEditor"/>
+                                        <constraint firstItem="inputLabel-ReceiptEditor" firstAttribute="leading" secondItem="inputContent-ReceiptEditor" secondAttribute="leadingMargin" id="lead-ReceiptEditor"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="heading" destination="inputLabel-ReceiptEditor" id="headingOutlet-ReceiptEditor"/>
+                                    <outlet property="input" destination="inputField-ReceiptEditor" id="fieldOutlet-ReceiptEditor"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ReceiptEditor" id="data-ReceiptEditor"/>
+                            <outlet property="delegate" destination="ReceiptEditor" id="delegate-ReceiptEditor"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="New receipt" id="item-ReceiptEditor"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-ReceiptEditor" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="550" y="1050"/>
+        </scene>
+        <!--Item Editor View Controller-->
+        <scene sceneID="scene-ItemEditor">
+            <objects>
+                <tableViewController storyboardIdentifier="ItemEditor" id="ItemEditor" customClass="ItemEditorViewController" customModule="ReceiptSplit" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="56" estimatedRowHeight="56" sectionHeaderHeight="28" sectionFooterHeight="28" id="table-ItemEditor">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="label-ItemEditor" detailTextLabel="detail-ItemEditor" style="IBUITableViewCellStyleSubtitle" id="cell-ItemEditor">
+                                <rect key="frame" x="16" y="55.333332061767578" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cell-ItemEditor" id="content-ItemEditor">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" id="label-ItemEditor">
+                                            <rect key="frame" x="20" y="7.9999999999999982" width="33" height="20.333333333333332"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Detail" lineBreakMode="tailTruncation" id="detail-ItemEditor">
+                                            <rect key="frame" x="20" y="30.333333333333332" width="35" height="15.666666666666666"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="InputCell" id="inputCell-ItemEditor" customClass="StoryboardInputCell" customModule="ReceiptSplit" customModuleProvider="target">
+                                <rect key="frame" x="16" y="111.33333206176758" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="inputCell-ItemEditor" id="inputContent-ItemEditor">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Field" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="inputLabel-ItemEditor">
+                                            <rect key="frame" x="20.000000000000004" y="17.666666666666668" width="36.333333333333343" height="21.000000000000004"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Value" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="inputField-ItemEditor">
+                                            <rect key="frame" x="180.66666666666663" y="6" width="160.33333333333337" height="44"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="inputField-ItemEditor" firstAttribute="height" constant="44" id="fieldHeight-ItemEditor"/>
+                                        <constraint firstItem="inputField-ItemEditor" firstAttribute="leading" secondItem="inputContent-ItemEditor" secondAttribute="centerX" id="fieldLead-ItemEditor"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="inputField-ItemEditor" secondAttribute="trailing" id="fieldTrail-ItemEditor"/>
+                                        <constraint firstItem="inputField-ItemEditor" firstAttribute="centerY" secondItem="inputContent-ItemEditor" secondAttribute="centerY" id="fieldY-ItemEditor"/>
+                                        <constraint firstItem="inputLabel-ItemEditor" firstAttribute="centerY" secondItem="inputContent-ItemEditor" secondAttribute="centerY" id="labelY-ItemEditor"/>
+                                        <constraint firstItem="inputLabel-ItemEditor" firstAttribute="leading" secondItem="inputContent-ItemEditor" secondAttribute="leadingMargin" id="lead-ItemEditor"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="heading" destination="inputLabel-ItemEditor" id="headingOutlet-ItemEditor"/>
+                                    <outlet property="input" destination="inputField-ItemEditor" id="fieldOutlet-ItemEditor"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ItemEditor" id="data-ItemEditor"/>
+                            <outlet property="delegate" destination="ItemEditor" id="delegate-ItemEditor"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="item-ItemEditor"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-ItemEditor" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1100" y="1050"/>
+        </scene>
+        <!--People View Controller-->
+        <scene sceneID="scene-People">
+            <objects>
+                <tableViewController storyboardIdentifier="People" id="People" customClass="PeopleViewController" customModule="ReceiptSplit" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="56" estimatedRowHeight="56" sectionHeaderHeight="28" sectionFooterHeight="28" id="table-People">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="label-People" detailTextLabel="detail-People" style="IBUITableViewCellStyleSubtitle" id="cell-People">
+                                <rect key="frame" x="16" y="55.333332061767578" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cell-People" id="content-People">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" id="label-People">
+                                            <rect key="frame" x="20" y="7.9999999999999982" width="33" height="20.333333333333332"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Detail" lineBreakMode="tailTruncation" id="detail-People">
+                                            <rect key="frame" x="20" y="30.333333333333332" width="35" height="15.666666666666666"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="InputCell" id="inputCell-People" customClass="StoryboardInputCell" customModule="ReceiptSplit" customModuleProvider="target">
+                                <rect key="frame" x="16" y="111.33333206176758" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="inputCell-People" id="inputContent-People">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Field" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="inputLabel-People">
+                                            <rect key="frame" x="20.000000000000004" y="17.666666666666668" width="36.333333333333343" height="21.000000000000004"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Value" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="inputField-People">
+                                            <rect key="frame" x="180.66666666666663" y="6" width="160.33333333333337" height="44"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="inputField-People" firstAttribute="height" constant="44" id="fieldHeight-People"/>
+                                        <constraint firstItem="inputField-People" firstAttribute="leading" secondItem="inputContent-People" secondAttribute="centerX" id="fieldLead-People"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="inputField-People" secondAttribute="trailing" id="fieldTrail-People"/>
+                                        <constraint firstItem="inputField-People" firstAttribute="centerY" secondItem="inputContent-People" secondAttribute="centerY" id="fieldY-People"/>
+                                        <constraint firstItem="inputLabel-People" firstAttribute="centerY" secondItem="inputContent-People" secondAttribute="centerY" id="labelY-People"/>
+                                        <constraint firstItem="inputLabel-People" firstAttribute="leading" secondItem="inputContent-People" secondAttribute="leadingMargin" id="lead-People"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="heading" destination="inputLabel-People" id="headingOutlet-People"/>
+                                    <outlet property="input" destination="inputField-People" id="fieldOutlet-People"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="People" id="data-People"/>
+                            <outlet property="delegate" destination="People" id="delegate-People"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="item-People"/>
+                    <connections>
+                        <segue destination="PersonEditor" kind="show" identifier="editPerson" id="People-editPerson"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-People" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1650" y="0.0"/>
+        </scene>
+        <!--Person Editor View Controller-->
+        <scene sceneID="scene-PersonEditor">
+            <objects>
+                <tableViewController storyboardIdentifier="PersonEditor" id="PersonEditor" customClass="PersonEditorViewController" customModule="ReceiptSplit" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="56" estimatedRowHeight="56" sectionHeaderHeight="28" sectionFooterHeight="28" id="table-PersonEditor">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="label-PersonEditor" detailTextLabel="detail-PersonEditor" style="IBUITableViewCellStyleSubtitle" id="cell-PersonEditor">
+                                <rect key="frame" x="16" y="55.333332061767578" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cell-PersonEditor" id="content-PersonEditor">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" id="label-PersonEditor">
+                                            <rect key="frame" x="20" y="7.9999999999999982" width="33" height="20.333333333333332"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Detail" lineBreakMode="tailTruncation" id="detail-PersonEditor">
+                                            <rect key="frame" x="20" y="30.333333333333332" width="35" height="15.666666666666666"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="InputCell" id="inputCell-PersonEditor" customClass="StoryboardInputCell" customModule="ReceiptSplit" customModuleProvider="target">
+                                <rect key="frame" x="16" y="111.33333206176758" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="inputCell-PersonEditor" id="inputContent-PersonEditor">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Field" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="inputLabel-PersonEditor">
+                                            <rect key="frame" x="20.000000000000004" y="17.666666666666668" width="36.333333333333343" height="21.000000000000004"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Value" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="inputField-PersonEditor">
+                                            <rect key="frame" x="180.66666666666663" y="6" width="160.33333333333337" height="44"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="inputField-PersonEditor" firstAttribute="height" constant="44" id="fieldHeight-PersonEditor"/>
+                                        <constraint firstItem="inputField-PersonEditor" firstAttribute="leading" secondItem="inputContent-PersonEditor" secondAttribute="centerX" id="fieldLead-PersonEditor"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="inputField-PersonEditor" secondAttribute="trailing" id="fieldTrail-PersonEditor"/>
+                                        <constraint firstItem="inputField-PersonEditor" firstAttribute="centerY" secondItem="inputContent-PersonEditor" secondAttribute="centerY" id="fieldY-PersonEditor"/>
+                                        <constraint firstItem="inputLabel-PersonEditor" firstAttribute="centerY" secondItem="inputContent-PersonEditor" secondAttribute="centerY" id="labelY-PersonEditor"/>
+                                        <constraint firstItem="inputLabel-PersonEditor" firstAttribute="leading" secondItem="inputContent-PersonEditor" secondAttribute="leadingMargin" id="lead-PersonEditor"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="heading" destination="inputLabel-PersonEditor" id="headingOutlet-PersonEditor"/>
+                                    <outlet property="input" destination="inputField-PersonEditor" id="fieldOutlet-PersonEditor"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="PersonEditor" id="data-PersonEditor"/>
+                            <outlet property="delegate" destination="PersonEditor" id="delegate-PersonEditor"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="item-PersonEditor"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-PersonEditor" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1650" y="1050"/>
+        </scene>
+        <!--Settlement View Controller-->
+        <scene sceneID="scene-Settlement">
+            <objects>
+                <tableViewController storyboardIdentifier="Settlement" id="Settlement" customClass="SettlementViewController" customModule="ReceiptSplit" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="56" estimatedRowHeight="56" sectionHeaderHeight="28" sectionFooterHeight="28" id="table-Settlement">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="label-Settlement" detailTextLabel="detail-Settlement" style="IBUITableViewCellStyleSubtitle" id="cell-Settlement">
+                                <rect key="frame" x="16" y="55.333332061767578" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cell-Settlement" id="content-Settlement">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" id="label-Settlement">
+                                            <rect key="frame" x="20" y="7.9999999999999982" width="33" height="20.333333333333332"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Detail" lineBreakMode="tailTruncation" id="detail-Settlement">
+                                            <rect key="frame" x="20" y="30.333333333333332" width="35" height="15.666666666666666"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="InputCell" id="inputCell-Settlement" customClass="StoryboardInputCell" customModule="ReceiptSplit" customModuleProvider="target">
+                                <rect key="frame" x="16" y="111.33333206176758" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="inputCell-Settlement" id="inputContent-Settlement">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Field" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="inputLabel-Settlement">
+                                            <rect key="frame" x="20.000000000000004" y="17.666666666666668" width="36.333333333333343" height="21.000000000000004"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Value" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="inputField-Settlement">
+                                            <rect key="frame" x="180.66666666666663" y="6" width="160.33333333333337" height="44"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="inputField-Settlement" firstAttribute="height" constant="44" id="fieldHeight-Settlement"/>
+                                        <constraint firstItem="inputField-Settlement" firstAttribute="leading" secondItem="inputContent-Settlement" secondAttribute="centerX" id="fieldLead-Settlement"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="inputField-Settlement" secondAttribute="trailing" id="fieldTrail-Settlement"/>
+                                        <constraint firstItem="inputField-Settlement" firstAttribute="centerY" secondItem="inputContent-Settlement" secondAttribute="centerY" id="fieldY-Settlement"/>
+                                        <constraint firstItem="inputLabel-Settlement" firstAttribute="centerY" secondItem="inputContent-Settlement" secondAttribute="centerY" id="labelY-Settlement"/>
+                                        <constraint firstItem="inputLabel-Settlement" firstAttribute="leading" secondItem="inputContent-Settlement" secondAttribute="leadingMargin" id="lead-Settlement"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="heading" destination="inputLabel-Settlement" id="headingOutlet-Settlement"/>
+                                    <outlet property="input" destination="inputField-Settlement" id="fieldOutlet-Settlement"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Settlement" id="data-Settlement"/>
+                            <outlet property="delegate" destination="Settlement" id="delegate-Settlement"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="item-Settlement"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-Settlement" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2200" y="0.0"/>
+        </scene>
+        <!--Review View Controller-->
+        <scene sceneID="scene-OCRReview">
+            <objects>
+                <tableViewController storyboardIdentifier="OCRReview" id="OCRReview" customClass="OCRReviewViewController" customModule="ReceiptSplit" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="56" estimatedRowHeight="56" sectionHeaderHeight="28" sectionFooterHeight="28" id="table-OCRReview">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" textLabel="label-OCRReview" detailTextLabel="detail-OCRReview" style="IBUITableViewCellStyleSubtitle" id="cell-OCRReview">
+                                <rect key="frame" x="16" y="55.333332061767578" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cell-OCRReview" id="content-OCRReview">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Title" lineBreakMode="tailTruncation" id="label-OCRReview">
+                                            <rect key="frame" x="20" y="7.9999999999999982" width="33" height="20.333333333333332"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Detail" lineBreakMode="tailTruncation" id="detail-OCRReview">
+                                            <rect key="frame" x="20" y="30.333333333333332" width="35" height="15.666666666666666"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="InputCell" id="inputCell-OCRReview" customClass="StoryboardInputCell" customModule="ReceiptSplit" customModuleProvider="target">
+                                <rect key="frame" x="16" y="111.33333206176758" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="inputCell-OCRReview" id="inputContent-OCRReview">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Field" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="inputLabel-OCRReview">
+                                            <rect key="frame" x="20.000000000000004" y="17.666666666666668" width="36.333333333333343" height="21.000000000000004"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Value" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="inputField-OCRReview">
+                                            <rect key="frame" x="180.66666666666663" y="6" width="160.33333333333337" height="44"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="inputField-OCRReview" firstAttribute="height" constant="44" id="fieldHeight-OCRReview"/>
+                                        <constraint firstItem="inputField-OCRReview" firstAttribute="leading" secondItem="inputContent-OCRReview" secondAttribute="centerX" id="fieldLead-OCRReview"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="inputField-OCRReview" secondAttribute="trailing" id="fieldTrail-OCRReview"/>
+                                        <constraint firstItem="inputField-OCRReview" firstAttribute="centerY" secondItem="inputContent-OCRReview" secondAttribute="centerY" id="fieldY-OCRReview"/>
+                                        <constraint firstItem="inputLabel-OCRReview" firstAttribute="centerY" secondItem="inputContent-OCRReview" secondAttribute="centerY" id="labelY-OCRReview"/>
+                                        <constraint firstItem="inputLabel-OCRReview" firstAttribute="leading" secondItem="inputContent-OCRReview" secondAttribute="leadingMargin" id="lead-OCRReview"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="heading" destination="inputLabel-OCRReview" id="headingOutlet-OCRReview"/>
+                                    <outlet property="input" destination="inputField-OCRReview" id="fieldOutlet-OCRReview"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="OCRReview" id="data-OCRReview"/>
+                            <outlet property="delegate" destination="OCRReview" id="delegate-OCRReview"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="item-OCRReview"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-OCRReview" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2200" y="1050"/>
+        </scene>
+    </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Detail-editReceipt"/>
+    </inferredMetricsTieBreakers>
+    <resources>
+        <systemColor name="systemGroupedBackgroundColor">
+            <color red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

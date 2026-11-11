@@ -1,0 +1,5 @@
+.build/
+TestResults/
+*.xcuserstate
+xcuserdata/
+.DS_Store
