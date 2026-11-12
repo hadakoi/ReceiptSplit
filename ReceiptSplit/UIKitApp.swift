@@ -5,6 +5,7 @@ import SwiftData
     let container: ModelContainer = {
         do {
             let testing = ProcessInfo.processInfo.arguments.contains("--uitesting")
+            if testing { SavedPeople.resetForTesting(); SettlementStatus.resetForTesting() }
             return try ModelContainer(for: Receipt.self, ReceiptItem.self, Participant.self,
                                       configurations: ModelConfiguration(isStoredInMemoryOnly: testing))
         } catch { fatalError("Could not open receipt storage: \(error)") }

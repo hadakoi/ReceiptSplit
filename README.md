@@ -8,7 +8,9 @@ Select the ReceiptSplit scheme and an iPhone simulator, then press Run. For a ph
 
 Tap **Scan a receipt** on the home screen to scan a new bill. You can also tap **+** to scan, import a photo, or enter the receipt manually. Review the detected items and charges before importing; canceling the scan does not create a receipt. Then add people, assign items and record who paid the merchant.
 
-For halves, thirds or quarters, choose Equal and select two, three or four people. For unequal fractions, choose Weighted: 1:2 gives one third and two thirds, and 1:3 gives one quarter and three quarters. Check suggested charges against the bill and enter missing values manually.
+Choose the people who shared each item. One selected person receives the whole item; with multiple people, choose Equal, Percentages, By quantity or Custom amounts. Percentages must add up to 100%. Saved people are available from the home screen and from a receipt’s Participants screen; payments are recorded separately on each receipt. Check suggested charges against the bill and enter missing values manually.
+
+After reviewing and confirming a valid split, swipe left on its home-screen row and choose **Mark settled** once the group has settled up. Swipe left again to reopen it. Changing the bill or its assignments clears its settled status. The same swipe menu offers **Delete**, with a confirmation. These are local records; the app does not transfer money.
 
 ## Features
 

@@ -119,6 +119,34 @@ final class ReceiptSplitTests: XCTestCase {
         XCTAssertEqual(result.transfers.first?.amount, 11000)
         XCTAssertTrue(SplitEngine.summary(receipt).contains("CGST:"))
     }
+    func testSavedPeopleAndSettlementStatus() throws {
+        let suite = "ReceiptSplitTests." + UUID().uuidString
+        let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+        defer { defaults.removePersistentDomain(forName: suite) }
+        XCTAssertTrue(SavedPeople.add("  Aryan  ", in: defaults))
+        XCTAssertFalse(SavedPeople.add("aryan", in: defaults))
+        XCTAssertEqual(SavedPeople.names(in: defaults), ["Aryan"])
+        let receipt = bill()
+        XCTAssertFalse(SettlementStatus.markSettled(receipt, in: defaults))
+        receipt.reviewed = true
+        XCTAssertTrue(SettlementStatus.markSettled(receipt, in: defaults))
+        XCTAssertTrue(SettlementStatus.isSettled(receipt, in: defaults))
+        receipt.items[0].allocations = [receipt.people[0].id.uuidString: 1]
+        XCTAssertFalse(SettlementStatus.isSettled(receipt, in: defaults))
+        SavedPeople.remove("Aryan", in: defaults)
+        XCTAssertTrue(SavedPeople.names(in: defaults).isEmpty)
+        XCTAssertEqual(receipt.people.count, 2)
+    }
+    @MainActor func testItemShowsSplitOptionsOnlyForMultiplePeople() throws {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle(for: AppDelegate.self))
+        let editor = try XCTUnwrap(storyboard.instantiateViewController(withIdentifier: "ItemEditor") as? ItemEditorViewController)
+        let receipt = bill(); editor.receipt = receipt; editor.item = receipt.items[0]; editor.loadViewIfNeeded()
+        XCTAssertEqual(editor.tableView(editor.tableView, numberOfRowsInSection: 2), 1)
+        editor.tableView(editor.tableView, didSelectRowAt: IndexPath(row: 0, section: 1))
+        XCTAssertEqual(editor.tableView(editor.tableView, numberOfRowsInSection: 2), 0)
+        editor.tableView(editor.tableView, didSelectRowAt: IndexPath(row: 0, section: 1))
+        XCTAssertEqual(editor.tableView(editor.tableView, numberOfRowsInSection: 2), 1)
+    }
     func testWeightedQuantityCustomAndPersonalSplits() {
         let receipt = bill(), item = receipt.items[0]
         let a = receipt.people[0].id.uuidString, b = receipt.people[1].id.uuidString

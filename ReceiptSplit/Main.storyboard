@@ -188,6 +188,54 @@
                                     <outlet property="icon" destination="rowIcon-Receipts-symbol0" id="row-icon-outlet-Receipts-symbol0"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Symbol-person.2.fill" id="cell-Receipts-symbol0-saved" customClass="StoryboardDisplayCell" customModule="ReceiptSplit" customModuleProvider="target">
+                                <rect key="frame" x="16" y="275.33333206176758" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cell-Receipts-symbol0-saved" id="content-Receipts-symbol0-saved">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="person.2.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="rowIcon-Receipts-symbol0-saved">
+                                            <rect key="frame" x="20" y="14.666666666666668" width="24" height="25.333333333333332"/>
+                                            <color key="tintColor" systemColor="systemTealColor"/>
+                                        </imageView>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="rowStack-Receipts-symbol0-saved">
+                                            <rect key="frame" x="56" y="8" width="285" height="40"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Saved people" lineBreakMode="tailTruncation" adjustsFontForContentSizeCategory="YES" id="label-Receipts-symbol0-saved">
+                                                    <rect key="frame" x="0.0" y="0.0" width="285" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Manage people you split with" lineBreakMode="tailTruncation" adjustsFontForContentSizeCategory="YES" id="detail-Receipts-symbol0-saved">
+                                                    <rect key="frame" x="0.0" y="22" width="285" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="rowIcon-Receipts-symbol0-saved" firstAttribute="centerY" secondItem="content-Receipts-symbol0-saved" secondAttribute="centerY" id="row-icon-center-Receipts-symbol0-saved"/>
+                                        <constraint firstItem="rowIcon-Receipts-symbol0-saved" firstAttribute="height" constant="24" id="row-icon-height-Receipts-symbol0-saved"/>
+                                        <constraint firstItem="rowIcon-Receipts-symbol0-saved" firstAttribute="leading" secondItem="content-Receipts-symbol0-saved" secondAttribute="leadingMargin" id="row-icon-leading-Receipts-symbol0-saved"/>
+                                        <constraint firstItem="rowIcon-Receipts-symbol0-saved" firstAttribute="width" constant="24" id="row-icon-width-Receipts-symbol0-saved"/>
+                                        <constraint firstAttribute="bottom" secondItem="rowStack-Receipts-symbol0-saved" secondAttribute="bottom" constant="8" id="row-stack-bottom-Receipts-symbol0-saved"/>
+                                        <constraint firstItem="rowStack-Receipts-symbol0-saved" firstAttribute="leading" secondItem="rowIcon-Receipts-symbol0-saved" secondAttribute="trailing" constant="12" id="row-stack-leading-Receipts-symbol0-saved"/>
+                                        <constraint firstItem="rowStack-Receipts-symbol0-saved" firstAttribute="top" secondItem="content-Receipts-symbol0-saved" secondAttribute="top" constant="8" id="row-stack-top-Receipts-symbol0-saved"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="rowStack-Receipts-symbol0-saved" secondAttribute="trailing" id="row-stack-trailing-Receipts-symbol0-saved"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="detail" destination="detail-Receipts-symbol0-saved" id="row-detail-outlet-Receipts-symbol0-saved"/>
+                                    <outlet property="heading" destination="label-Receipts-symbol0-saved" id="row-heading-outlet-Receipts-symbol0-saved"/>
+                                    <outlet property="icon" destination="rowIcon-Receipts-symbol0-saved" id="row-icon-outlet-Receipts-symbol0-saved"/>
+                                </connections>
+                            </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Symbol-receipt" id="cell-Receipts-symbol1" customClass="StoryboardDisplayCell" customModule="ReceiptSplit" customModuleProvider="target">
                                 <rect key="frame" x="16" y="331.33333206176758" width="361" height="56"/>
                                 <autoresizingMask key="autoresizingMask"/>
@@ -280,6 +328,7 @@
                         <segue destination="Detail" kind="show" identifier="showReceipt" id="Receipts-showReceipt"/>
                         <segue destination="ReceiptEditor" kind="show" identifier="editReceipt" id="Receipts-editReceipt"/>
                         <segue destination="OCRReview" kind="show" identifier="reviewNewOCR" id="Receipts-reviewNewOCR"/>
+                        <segue destination="SavedPeople" kind="show" identifier="manageSavedPeople" id="Receipts-manageSavedPeople"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="first-Receipts" sceneMemberID="firstResponder"/>
@@ -1282,6 +1331,7 @@
                     <navigationItem key="navigationItem" id="item-People"/>
                     <connections>
                         <segue destination="PersonEditor" kind="show" identifier="editPerson" id="People-editPerson"/>
+                        <segue destination="SavedPeople" kind="show" identifier="showSavedPeople" id="People-showSavedPeople"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="first-People" sceneMemberID="firstResponder"/>
@@ -1427,6 +1477,146 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="first-PersonEditor" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1650" y="1050"/>
+        </scene>
+        <!--Saved People View Controller-->
+        <scene sceneID="scene-SavedPeople">
+            <objects>
+                <tableViewController storyboardIdentifier="SavedPeople" id="SavedPeople" customClass="SavedPeopleViewController" customModule="ReceiptSplit" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="insetGrouped" separatorStyle="default" rowHeight="56" estimatedRowHeight="56" sectionHeaderHeight="28" sectionFooterHeight="28" id="table-SavedPeople">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="SavedPeople-stage">
+                            <rect key="frame" x="0.0" y="0.0" width="393" height="116"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="person.badge.plus" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="SavedPeople-stage-icon">
+                                    <rect key="frame" x="22" y="38.333333333333343" width="45" height="43.666666666666657"/>
+                                    <color key="tintColor" systemColor="systemTealColor"/>
+                                </imageView>
+                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="SavedPeople-stage-stack">
+                                    <rect key="frame" x="80" y="29" width="293" height="58"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Saved people" lineBreakMode="tailTruncation" adjustsFontForContentSizeCategory="YES" id="SavedPeople-stage-title">
+                                            <rect key="frame" x="0.0" y="0.0" width="293" height="26.333333333333332"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Save names to reuse on future receipts." lineBreakMode="tailTruncation" numberOfLines="2" adjustsFontForContentSizeCategory="YES" id="SavedPeople-stage-subtitle">
+                                            <rect key="frame" x="0.0" y="31.333333333333329" width="293" height="26.666666666666671"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                            <color key="textColor" systemColor="secondaryLabelColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </stackView>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="SavedPeople-stage-icon" firstAttribute="centerY" secondItem="SavedPeople-stage" secondAttribute="centerY" id="SavedPeople-stage-icon-center"/>
+                                <constraint firstItem="SavedPeople-stage-icon" firstAttribute="height" constant="42" id="SavedPeople-stage-icon-height"/>
+                                <constraint firstItem="SavedPeople-stage-icon" firstAttribute="leading" secondItem="SavedPeople-stage" secondAttribute="leading" constant="22" id="SavedPeople-stage-icon-leading"/>
+                                <constraint firstItem="SavedPeople-stage-icon" firstAttribute="width" constant="42" id="SavedPeople-stage-icon-width"/>
+                                <constraint firstItem="SavedPeople-stage-stack" firstAttribute="centerY" secondItem="SavedPeople-stage" secondAttribute="centerY" id="SavedPeople-stage-stack-center"/>
+                                <constraint firstItem="SavedPeople-stage-stack" firstAttribute="leading" secondItem="SavedPeople-stage-icon" secondAttribute="trailing" constant="16" id="SavedPeople-stage-stack-leading"/>
+                                <constraint firstAttribute="trailing" secondItem="SavedPeople-stage-stack" secondAttribute="trailing" constant="20" id="SavedPeople-stage-stack-trailing"/>
+                            </constraints>
+                        </view>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="cell-SavedPeople" customClass="StoryboardDisplayCell" customModule="ReceiptSplit" customModuleProvider="target">
+                                <rect key="frame" x="16" y="171.33333206176758" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cell-SavedPeople" id="content-SavedPeople">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="person.crop.circle.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="rowIcon-SavedPeople">
+                                            <rect key="frame" x="20" y="16.333333333333336" width="24" height="23.333333333333336"/>
+                                            <color key="tintColor" systemColor="systemTealColor"/>
+                                        </imageView>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="rowStack-SavedPeople">
+                                            <rect key="frame" x="56" y="8" width="285" height="40"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Participant" lineBreakMode="tailTruncation" adjustsFontForContentSizeCategory="YES" id="label-SavedPeople">
+                                                    <rect key="frame" x="0.0" y="0.0" width="285" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Amount paid" lineBreakMode="tailTruncation" adjustsFontForContentSizeCategory="YES" id="detail-SavedPeople">
+                                                    <rect key="frame" x="0.0" y="22" width="285" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="rowIcon-SavedPeople" firstAttribute="centerY" secondItem="content-SavedPeople" secondAttribute="centerY" id="row-icon-center-SavedPeople"/>
+                                        <constraint firstItem="rowIcon-SavedPeople" firstAttribute="height" constant="24" id="row-icon-height-SavedPeople"/>
+                                        <constraint firstItem="rowIcon-SavedPeople" firstAttribute="leading" secondItem="content-SavedPeople" secondAttribute="leadingMargin" id="row-icon-leading-SavedPeople"/>
+                                        <constraint firstItem="rowIcon-SavedPeople" firstAttribute="width" constant="24" id="row-icon-width-SavedPeople"/>
+                                        <constraint firstAttribute="bottom" secondItem="rowStack-SavedPeople" secondAttribute="bottom" constant="8" id="row-stack-bottom-SavedPeople"/>
+                                        <constraint firstItem="rowStack-SavedPeople" firstAttribute="leading" secondItem="rowIcon-SavedPeople" secondAttribute="trailing" constant="12" id="row-stack-leading-SavedPeople"/>
+                                        <constraint firstItem="rowStack-SavedPeople" firstAttribute="top" secondItem="content-SavedPeople" secondAttribute="top" constant="8" id="row-stack-top-SavedPeople"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="rowStack-SavedPeople" secondAttribute="trailing" id="row-stack-trailing-SavedPeople"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="detail" destination="detail-SavedPeople" id="row-detail-outlet-SavedPeople"/>
+                                    <outlet property="heading" destination="label-SavedPeople" id="row-heading-outlet-SavedPeople"/>
+                                    <outlet property="icon" destination="rowIcon-SavedPeople" id="row-icon-outlet-SavedPeople"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="InputCell" id="inputCell-SavedPeople" customClass="StoryboardInputCell" customModule="ReceiptSplit" customModuleProvider="target">
+                                <rect key="frame" x="16" y="227.33333206176758" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="inputCell-SavedPeople" id="inputContent-SavedPeople">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Field" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="inputLabel-SavedPeople">
+                                            <rect key="frame" x="20.000000000000004" y="18" width="36.333333333333343" height="20.333333333333329"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" placeholder="Value" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="inputField-SavedPeople">
+                                            <rect key="frame" x="180.66666666666663" y="6" width="160.33333333333337" height="44"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                        </textField>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="inputField-SavedPeople" firstAttribute="height" constant="44" id="fieldHeight-SavedPeople"/>
+                                        <constraint firstItem="inputField-SavedPeople" firstAttribute="leading" secondItem="inputContent-SavedPeople" secondAttribute="centerX" id="fieldLead-SavedPeople"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="inputField-SavedPeople" secondAttribute="trailing" id="fieldTrail-SavedPeople"/>
+                                        <constraint firstItem="inputField-SavedPeople" firstAttribute="centerY" secondItem="inputContent-SavedPeople" secondAttribute="centerY" id="fieldY-SavedPeople"/>
+                                        <constraint firstItem="inputLabel-SavedPeople" firstAttribute="centerY" secondItem="inputContent-SavedPeople" secondAttribute="centerY" id="labelY-SavedPeople"/>
+                                        <constraint firstItem="inputLabel-SavedPeople" firstAttribute="leading" secondItem="inputContent-SavedPeople" secondAttribute="leadingMargin" id="lead-SavedPeople"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="heading" destination="inputLabel-SavedPeople" id="headingOutlet-SavedPeople"/>
+                                    <outlet property="input" destination="inputField-SavedPeople" id="fieldOutlet-SavedPeople"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="SavedPeople" id="data-SavedPeople"/>
+                            <outlet property="delegate" destination="SavedPeople" id="delegate-SavedPeople"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="item-SavedPeople"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="first-SavedPeople" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2750" y="1050"/>
         </scene>
         <!--Settlement View Controller-->
         <scene sceneID="scene-Settlement">

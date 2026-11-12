@@ -58,31 +58,42 @@ final class ReceiptsViewController: StoryboardTableController, UISearchResultsUp
     }
     func openReceipt(_ receipt: Receipt) { performSegue(withIdentifier: "showReceipt", sender: receipt) }
     override func numberOfSections(in tableView: UITableView) -> Int { 2 }
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { section == 0 ? 2 : max(visible.count, 1) }
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { section == 0 ? 3 : max(visible.count, 1) }
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? { section == 0 ? "ON YOUR DEVICE" : "Your receipts" }
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? { section == 1 && !visible.isEmpty ? "Swipe left on a receipt to mark it settled, reopen it, or delete it." : nil }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
             if indexPath.row == 1 { return cell(VNDocumentCameraViewController.isSupported ? "Scan a receipt" : "Import receipt photo", detail: "Start a new split from a receipt", accessory: .disclosureIndicator, id: "scanReceipt", symbol: "camera.viewfinder") }
+            if indexPath.row == 2 { return cell("Saved people", detail: "Manage people you split with", accessory: .disclosureIndicator, id: "manageSavedPeople", symbol: "person.2.fill") }
             return cell("Your overview", detail: "\(receipts.count) receipts · \(Money.format(receipts.reduce(0) { $0 + $1.total }))", symbol: "receipt")
         }
         guard !visible.isEmpty else { return cell(search.searchBar.text?.isEmpty == false ? "No matching receipts" : "Your next split starts here", detail: "Tap + to add your first receipt.") }
         let r = visible[indexPath.row]
-        return cell(r.merchant, detail: "\(r.date.formatted(date: .abbreviated, time: .omitted)) · \(r.items.count) items · \(Money.format(r.total)) · \(r.reviewed ? "Ready" : "Draft")", accessory: .disclosureIndicator, id: "receipt-" + r.merchant)
+        return cell(r.merchant, detail: "\(SettlementStatus.isSettled(r) ? "Settled" : r.reviewed ? "Ready" : "Draft") · \(Money.format(r.total)) · \(r.date.formatted(date: .abbreviated, time: .omitted))", accessory: .disclosureIndicator, id: "receipt-" + r.merchant)
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 0 && indexPath.row == 1 {
             startScan()
-        } else if indexPath.section == 1 && !visible.isEmpty { performSegue(withIdentifier: "showReceipt", sender: visible[indexPath.row]) }
+        } else if indexPath.section == 0 && indexPath.row == 2 { performSegue(withIdentifier: "manageSavedPeople", sender: nil) }
+        else if indexPath.section == 1 && !visible.isEmpty { performSegue(withIdentifier: "showReceipt", sender: visible[indexPath.row]) }
     }
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         guard indexPath.section == 1 && !visible.isEmpty else { return nil }
         let receipt = visible[indexPath.row]
-        return UISwipeActionsConfiguration(actions: [UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, done in
+        let toggle = UIContextualAction(style: .normal, title: SettlementStatus.isSettled(receipt) ? "Reopen" : "Mark settled") { [weak self] _, _, done in
+            guard let self else { done(false); return }
+            if SettlementStatus.isSettled(receipt) { SettlementStatus.clear(receipt) }
+            else if !SettlementStatus.markSettled(receipt) { self.showError("Review and confirm this receipt in Split & settle before marking it settled."); done(false); return }
+            self.tableView.reloadData(); done(true)
+        }
+        toggle.backgroundColor = .systemGreen
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, done in
             self?.confirm("Delete receipt?", message: "This removes its items and participants from this device.") {
-                self?.store.delete(receipt); if self?.saveChanges() == true { self?.reload() }
+                self?.store.delete(receipt); if self?.saveChanges() == true { SettlementStatus.clear(receipt); self?.reload() }
             }; done(true)
-        }])
+        }
+        let actions = UISwipeActionsConfiguration(actions: [toggle, delete]); actions.performsFirstActionWithFullSwipe = false; return actions
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? DetailViewController { vc.receipt = sender as? Receipt }

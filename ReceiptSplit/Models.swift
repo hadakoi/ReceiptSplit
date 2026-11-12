@@ -63,3 +63,32 @@ enum Money {
         (Double(cents) / 100).formatted(.currency(code: "INR"))
     }
 }
+
+// A settlement is an explicit local acknowledgement, tied to the exact bill.
+// Keeping it outside the SwiftData schema preserves existing receipt stores.
+enum SettlementStatus {
+    private static let key = "settledReceipts"
+    private static func fingerprint(_ receipt: Receipt) -> String {
+        var values = [receipt.id.uuidString, receipt.merchant, String(receipt.cgst), String(receipt.sgst), String(receipt.service), String(receipt.tip), String(receipt.discount), String(receipt.rounding), receipt.printedTotal.map(String.init) ?? "none"]
+        for person in receipt.people.sorted(by: { $0.id.uuidString < $1.id.uuidString }) { values += [person.id.uuidString, person.name, String(person.paid)] }
+        for item in receipt.items.sorted(by: { $0.id.uuidString < $1.id.uuidString }) {
+            values += [item.id.uuidString, item.name, String(item.quantity), String(item.unitPrice), item.splitMode, String(item.needsReview)]
+            for key in item.allocations.keys.sorted() { values += [key, String(item.allocations[key] ?? 0)] }
+        }
+        return String(data: (try? JSONEncoder().encode(values)) ?? Data(), encoding: .utf8) ?? ""
+    }
+    static func isSettled(_ receipt: Receipt, in defaults: UserDefaults = .standard) -> Bool {
+        guard receipt.reviewed else { return false }
+        return (defaults.dictionary(forKey: key) as? [String: String])?[receipt.id.uuidString] == fingerprint(receipt)
+    }
+    @discardableResult static func markSettled(_ receipt: Receipt, in defaults: UserDefaults = .standard) -> Bool {
+        guard receipt.reviewed, SplitEngine.calculate(receipt).issues.isEmpty else { return false }
+        var entries = defaults.dictionary(forKey: key) as? [String: String] ?? [:]
+        entries[receipt.id.uuidString] = fingerprint(receipt); defaults.set(entries, forKey: key); return true
+    }
+    static func clear(_ receipt: Receipt, in defaults: UserDefaults = .standard) {
+        var entries = defaults.dictionary(forKey: key) as? [String: String] ?? [:]
+        entries.removeValue(forKey: receipt.id.uuidString); defaults.set(entries, forKey: key)
+    }
+    static func resetForTesting() { UserDefaults.standard.removeObject(forKey: key) }
+}
