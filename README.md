@@ -6,16 +6,16 @@ Open `ReceiptSplit.xcodeproj` in Xcode and select **Main.storyboard** to inspect
 
 Select the ReceiptSplit scheme and an iPhone simulator, then press Run. For a physical iPhone, select your Apple development team in Signing & Capabilities and follow Xcode’s device setup prompts. The minimum supported iOS version is 17.
 
-Tap **Try a sample split** on the home screen to create a local example with two people, two items, CGST, SGST, service, discount and rounding. Open an item to change its split, then open **Review split & settle** to check the result. Each tap creates a separate editable receipt. For a new bill, tap **+**, enter the printed total and charges, add items and people, and record who paid the merchant.
+Tap **Scan a receipt** on the home screen to scan a new bill. You can also tap **+** to scan, import a photo, or enter the receipt manually. Review the detected items and charges before importing; canceling the scan does not create a receipt. Then add people, assign items and record who paid the merchant.
 
-For halves, thirds or quarters, choose Equal and select two, three or four people. For unequal fractions, choose Weighted: 1:2 gives one third and two thirds, and 1:3 gives one quarter and three quarters. Charges are currently manual; automatic extraction of taxes and charges is planned, and physical-camera scanning still needs real-device testing.
+For halves, thirds or quarters, choose Equal and select two, three or four people. For unequal fractions, choose Weighted: 1:2 gives one third and two thirds, and 1:3 gives one quarter and three quarters. Check suggested charges against the bill and enter missing values manually.
 
 ## Features
 
 - Create, read, edit, search, and delete receipts; edit line items and participants; record multiple payments.
 - Split each item equally among everyone or selected people, by whole quantities, by weights, or by custom amounts.
 - Enter CGST, SGST, service charge, tip, discount, rounding, and the printed total. Review reconciliation and a person-wise settlement before sharing.
-- Scan on a supported iPhone or select a photo, use on-device Vision OCR, select detected rows, and review every imported item. Recognition is heuristic; tax fields and unusual layouts require manual entry.
+- Scan on a supported iPhone or select a photo, use on-device Vision OCR, select detected rows, and review every imported item. Recognizable CGST, SGST, service charge, discount, rounding and tip lines are offered as optional suggestions; check each against the receipt. Unusual layouts and missing charges may require manual entry.
 - Store receipts locally with SwiftData. Amounts use integer paise and allocation uses largest-remainder rounding. No account, payment integration, or cloud OCR is required.
 
 Amounts for inclusive taxes should not be added again. Adjustments are distributed in proportion to item subtotals. Payment totals and the calculated receipt total must match before confirmation. Participants belong to individual receipts; reusable groups are not implemented.

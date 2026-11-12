@@ -4,14 +4,14 @@
 
 Build the iPhone workflow: **scan → review automatically extracted items and charges → add people → assign item shares → reconcile and settle**. Keep the screens in UIKit and `Main.storyboard`, work offline, and let the user correct every detected value. The existing SwiftData receipts must remain readable.
 
-This document is a plan; the automatic charge extraction and revised workflow below are not implemented yet.
+This document includes future work. The app now supports starting a scan from the home screen and suggesting selected charges for review; the more complete charge semantics and reconciliation changes below remain planned.
 
 ## Current starting point
 
-- `OCRService.swift` uses Vision on-device. It currently recognizes item-like lines ending in decimal amounts, suggests a merchant and printed total, and excludes tax, discount, service and rounding lines instead of extracting them.
+- `OCRService.swift` uses Vision on-device. It groups text boxes into rows, detects decimal-price lines and certain whole-number item-table layouts, and suggests a merchant, printed total, CGST, SGST, service charge, discount, rounding and tip for review. These heuristics need testing on more receipts; they do not handle all layouts.
 - `Models.swift` stores receipt items, participants, payments, CGST, SGST, service charge, tip, discount, rounding and an optional printed total in integer paise. The receipt editor already accepts these adjustment amounts manually.
 - `SplitEngine.swift` supports equal, quantity, weighted and custom allocations, proportional adjustment sharing, payment balances and paise-preserving rounding. It currently uses one calculated total for both reconciliation and settlement.
-- The storyboard app has receipt, item and participant editing, scan review, settlement and sharing. The scan review does not yet expose extracted charges or guide the entire workflow in the requested order.
+- The storyboard app has receipt, item and participant editing, scan review, settlement and sharing. Scan review offers detected charges as opt-in suggestions; a more complete editing and guided review flow remains to be built.
 
 ## Product workflow
 

@@ -3,7 +3,7 @@ import SwiftData
 import PhotosUI
 import VisionKit
 
-final class ReceiptsViewController: StoryboardTableController, UISearchResultsUpdating {
+final class ReceiptsViewController: StoryboardTableController, UISearchResultsUpdating, VNDocumentCameraViewControllerDelegate, PHPickerViewControllerDelegate {
     private var receipts: [Receipt] = []
     private let search = UISearchController(searchResultsController: nil)
     override func viewDidLoad() {
@@ -19,13 +19,55 @@ final class ReceiptsViewController: StoryboardTableController, UISearchResultsUp
     }
     var visible: [Receipt] { let text = search.searchBar.text ?? ""; return receipts.filter { text.isEmpty || $0.merchant.localizedCaseInsensitiveContains(text) } }
     func updateSearchResults(for searchController: UISearchController) { tableView.reloadData() }
-    @objc func addReceipt() { performSegue(withIdentifier: "editReceipt", sender: nil) }
+    @objc func addReceipt() {
+        let menu = UIAlertController(title: "New receipt", message: "How would you like to start?", preferredStyle: .actionSheet)
+        if VNDocumentCameraViewController.isSupported { menu.addAction(UIAlertAction(title: "Scan receipt", style: .default) { _ in self.startScan() }) }
+        menu.addAction(UIAlertAction(title: "Import receipt photo", style: .default) { _ in self.startPhotoImport() })
+        menu.addAction(UIAlertAction(title: "Enter manually", style: .default) { _ in self.performSegue(withIdentifier: "editReceipt", sender: nil) })
+        menu.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        menu.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+        present(menu, animated: true)
+    }
+    private func startScan() {
+        guard VNDocumentCameraViewController.isSupported else { startPhotoImport(); return }
+        let scanner = VNDocumentCameraViewController(); scanner.delegate = self; present(scanner, animated: true)
+    }
+    private func startPhotoImport() {
+        var config = PHPickerConfiguration(); config.filter = .images; config.selectionLimit = 1
+        let picker = PHPickerViewController(configuration: config); picker.delegate = self; present(picker, animated: true)
+    }
+    func documentCameraViewControllerDidCancel(_ controller: VNDocumentCameraViewController) { controller.dismiss(animated: true) }
+    func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFailWithError error: Error) { controller.dismiss(animated: true) { self.showError(error.localizedDescription) } }
+    func documentCameraViewController(_ controller: VNDocumentCameraViewController, didFinishWith scan: VNDocumentCameraScan) {
+        let images = (0..<scan.pageCount).map { scan.imageOfPage(at: $0) }
+        controller.dismiss(animated: true) { self.recognize(images) }
+    }
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        guard let provider = results.first?.itemProvider, provider.canLoadObject(ofClass: UIImage.self) else { return }
+        provider.loadObject(ofClass: UIImage.self) { [weak self] object, error in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                if let image = object as? UIImage { self.recognize([image]) }
+                else { self.showError(error?.localizedDescription ?? OCRFailure.unreadable.localizedDescription) }
+            }
+        }
+    }
+    private func recognize(_ images: [UIImage]) {
+        let progress = UIAlertController(title: "Reading receipt on device…", message: nil, preferredStyle: .alert)
+        present(progress, animated: true)
+        Task { @MainActor in
+            do { let draft = try await ReceiptOCR.recognize(images); progress.dismiss(animated: true) { self.performSegue(withIdentifier: "reviewNewOCR", sender: draft) } }
+            catch { progress.dismiss(animated: true) { self.showError(error.localizedDescription) } }
+        }
+    }
+    func openReceipt(_ receipt: Receipt) { performSegue(withIdentifier: "showReceipt", sender: receipt) }
     override func numberOfSections(in tableView: UITableView) -> Int { 2 }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { section == 0 ? 2 : max(visible.count, 1) }
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? { section == 0 ? "ON YOUR DEVICE" : "Your receipts" }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            if indexPath.row == 1 { return cell("Try a sample split", detail: "Create an example to explore the whole flow", accessory: .disclosureIndicator, id: "sampleSplit", symbol: "sparkles") }
+            if indexPath.row == 1 { return cell(VNDocumentCameraViewController.isSupported ? "Scan a receipt" : "Import receipt photo", detail: "Start a new split from a receipt", accessory: .disclosureIndicator, id: "scanReceipt", symbol: "camera.viewfinder") }
             return cell("Your overview", detail: "\(receipts.count) receipts · \(Money.format(receipts.reduce(0) { $0 + $1.total }))", symbol: "receipt")
         }
         guard !visible.isEmpty else { return cell(search.searchBar.text?.isEmpty == false ? "No matching receipts" : "Your next split starts here", detail: "Tap + to add your first receipt.") }
@@ -35,12 +77,7 @@ final class ReceiptsViewController: StoryboardTableController, UISearchResultsUp
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 0 && indexPath.row == 1 {
-            let sample = Receipt(merchant: "Sample Café")
-            sample.printedTotal = 31950; sample.cgst = 750; sample.sgst = 750; sample.service = 1500; sample.discount = 1000; sample.rounding = -50
-            sample.items = [ReceiptItem(name: "Lunch", unitPrice: 20000), ReceiptItem(name: "Dessert", unitPrice: 10000)]
-            sample.people = [Participant(name: "Alex", paid: 31950), Participant(name: "Sam")]
-            store.insert(sample)
-            if saveChanges() { reload(); performSegue(withIdentifier: "showReceipt", sender: sample) }
+            startScan()
         } else if indexPath.section == 1 && !visible.isEmpty { performSegue(withIdentifier: "showReceipt", sender: visible[indexPath.row]) }
     }
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -54,6 +91,9 @@ final class ReceiptsViewController: StoryboardTableController, UISearchResultsUp
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let vc = segue.destination as? DetailViewController { vc.receipt = sender as? Receipt }
+        if let vc = segue.destination as? OCRReviewViewController, let draft = sender as? OCRDraft {
+            vc.draft = draft; vc.receipt = Receipt(merchant: draft.merchant); vc.isNewReceipt = true
+        }
     }
 }
 

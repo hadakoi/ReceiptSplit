@@ -28,6 +28,52 @@ final class ReceiptSplitTests: XCTestCase {
         XCTAssertFalse(receipt.reviewed)
         context.delete(receipt); try context.save()
     }
+    @MainActor func testScannedChargesRequireSelection() throws {
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle(for: AppDelegate.self))
+        let context = (UIApplication.shared.delegate as! AppDelegate).container.mainContext
+        let draft = ReceiptOCR.parse([("Lunch 100.00", 1), ("CGST 2.50", 1), ("SGST 2.50", 1)])
+        let first = Receipt(merchant: "First"); context.insert(first)
+        let review = try XCTUnwrap(storyboard.instantiateViewController(withIdentifier: "OCRReview") as? OCRReviewViewController)
+        review.receipt = first; review.draft = draft; review.loadViewIfNeeded(); review.importItems()
+        XCTAssertEqual(first.cgst, 0); XCTAssertEqual(first.sgst, 0)
+        let second = Receipt(merchant: "Second"); context.insert(second)
+        let review2 = try XCTUnwrap(storyboard.instantiateViewController(withIdentifier: "OCRReview") as? OCRReviewViewController)
+        review2.receipt = second; review2.draft = draft; review2.loadViewIfNeeded()
+        review2.tableView(review2.tableView, didSelectRowAt: IndexPath(row: 0, section: 3)); review2.importItems()
+        XCTAssertEqual(second.cgst, 250); XCTAssertEqual(second.sgst, 0)
+        context.delete(first); context.delete(second); try context.save()
+    }
+    func testOCRChargeCandidatesStaySeparateFromItems() {
+        let draft = ReceiptOCR.parse([("Cafe", 1), ("Lunch 300.00", 1), ("CGST 2.5% 7.50", 0.9), ("SGST 2.5% 7.50", 0.9), ("Service Charge 15.00", 0.9), ("Discount -10.00", 0.9), ("Round off -0.50", 0.9), ("Grand Total 319.50", 1), ("CGST 2.5%", 1)])
+        XCTAssertEqual(draft.lines.map(\.name), ["Lunch"])
+        XCTAssertEqual(draft.charges.map(\.kind), [.cgst, .sgst, .service, .discount, .rounding])
+        XCTAssertEqual(draft.charges.map(\.amount), [750, 750, 1500, 1000, -50])
+        XCTAssertEqual(draft.total, 31950)
+        XCTAssertTrue(draft.charges[0].source.contains("2.5%"))
+    }
+    func testOCRGroupsColumnsWithoutMergingAdjacentRows() {
+        let rows = ReceiptOCR.groupRows([
+            OCRTextBox(text: "Coffee", confidence: 0.9, bounds: CGRect(x: 0.1, y: 0.80, width: 0.3, height: 0.02)),
+            OCRTextBox(text: "120.00", confidence: 0.8, bounds: CGRect(x: 0.8, y: 0.801, width: 0.1, height: 0.02)),
+            OCRTextBox(text: "CGST", confidence: 0.95, bounds: CGRect(x: 0.1, y: 0.77, width: 0.2, height: 0.02)),
+            OCRTextBox(text: "3.00", confidence: 0.9, bounds: CGRect(x: 0.8, y: 0.771, width: 0.1, height: 0.02))
+        ])
+        let draft = ReceiptOCR.parse(rows)
+        XCTAssertEqual(draft.lines.map(\.name), ["Coffee"])
+        XCTAssertEqual(draft.lines.first?.amount, 12000)
+        XCTAssertEqual(draft.charges.first?.amount, 300)
+        XCTAssertEqual(draft.charges.first?.kind, .cgst)
+        XCTAssertEqual(rows.count, 2)
+    }
+    func testOCRParsesWholeNumberItemColumnsAndQuantity() {
+        let draft = ReceiptOCR.parse([("Cafe", 1), ("Particulars Qty Rate Amount", 1), ("Potatoes 120 120", 1), ("Pizza (M) 300 300", 1), ("Cake 2 150 300", 1), ("Sub Total : 720.00", 1), ("CGST @2.5% : 18.00", 1), ("SGST @2.5% : 18.00", 1), ("Food Total : 756.00", 1)])
+        XCTAssertEqual(draft.lines.map(\.name), ["Potatoes", "Pizza (M)", "Cake"])
+        XCTAssertEqual(draft.lines.map(\.amount), [12000, 30000, 30000])
+        XCTAssertEqual(draft.lines.last?.quantity, 2)
+        XCTAssertEqual(draft.lines.last?.unitPrice, 15000)
+        XCTAssertEqual(draft.charges.map(\.amount), [1800, 1800])
+        XCTAssertEqual(draft.total, 75600)
+    }
     func testMoneyValidationAndExactParsing() {
         XCTAssertEqual(Money.parse("₹1,234.56"), 123456)
         XCTAssertEqual(Money.parse("0.01"), 1)

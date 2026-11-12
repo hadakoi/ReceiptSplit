@@ -16,6 +16,7 @@ final class ReceiptSplitUITests: XCTestCase {
     }
     func createReceipt() {
         app.buttons["New receipt"].tap()
+        app.sheets.buttons["Enter manually"].tap()
         replace(app.textFields["merchantField"], with: "Campus Cafe")
         replace(app.textFields["Printed totalField"], with: "220.00")
         replace(app.textFields["CGSTField"], with: "10.00")
@@ -84,6 +85,7 @@ final class ReceiptSplitUITests: XCTestCase {
     }
     func testValidationAndCancelLeaveDataUntouched() {
         app.buttons["New receipt"].tap()
+        app.sheets.buttons["Enter manually"].tap()
         XCTAssertFalse(app.buttons["saveReceipt"].isEnabled)
         replace(app.textFields["merchantField"], with: "Cancelled")
         app.buttons["Cancel"].tap()
@@ -127,25 +129,13 @@ final class ReceiptSplitUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Aditya pays Aryan"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.staticTexts.matching(NSPredicate(format: "label CONTAINS '88.00'")).firstMatch.exists)
     }
-    func testSampleReceiptReviewAndSettlement() {
-        app.cells["sampleSplit"].tap()
-        XCTAssertTrue(app.cells["item-Lunch"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["Matches printed total"].exists)
-        app.cells["participantsLink"].tap()
-        XCTAssertTrue(app.cells["person-Alex"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.cells["person-Sam"].exists)
-        app.navigationBars.buttons.element(boundBy: 0).tap()
-        app.cells["item-Lunch"].tap()
-        app.cells["splitMethod"].tap()
-        app.sheets.buttons["Weighted"].tap()
-        replace(app.textFields["share-Alex"], with: "3")
-        replace(app.textFields["share-Sam"], with: "1")
-        app.buttons["saveItem"].tap()
-        app.cells["settlementLink"].tap()
-        XCTAssertTrue(app.staticTexts["All numbers checked"].waitForExistence(timeout: 5))
-        XCTAssertTrue(app.staticTexts["Sam pays Alex"].exists)
-        app.swipeUp()
-        app.cells["confirmReview"].tap()
-        XCTAssertTrue(app.cells["shareSettlement"].waitForExistence(timeout: 5))
+    func testNewReceiptOptionsAndCancel() {
+        XCTAssertTrue(app.cells["scanReceipt"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.cells["sampleSplit"].exists)
+        app.buttons["New receipt"].tap()
+        XCTAssertTrue(app.sheets.buttons["Import receipt photo"].exists)
+        XCTAssertTrue(app.sheets.buttons["Enter manually"].exists)
+        app.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2)).tap()
+        XCTAssertTrue(app.staticTexts["Your next split starts here"].exists)
     }
 }
