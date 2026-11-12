@@ -1,5 +1,6 @@
 import UIKit
 import SwiftData
+import PhotosUI
 
 final class StoryboardInputCell: UITableViewCell {
     @IBOutlet weak var heading: UILabel!
@@ -23,6 +24,35 @@ final class StoryboardDisplayCell: UITableViewCell {
 class StoryboardTableController: UITableViewController {
     var values: [String: String] = [:]
     override func viewDidLoad() { super.viewDidLoad(); tableView.keyboardDismissMode = .interactive }
+    func loadReceiptPhoto(_ provider: NSItemProvider, completion: @escaping (OCRDraft) -> Void) {
+        guard provider.canLoadObject(ofClass: UIImage.self) else { showError(OCRFailure.unreadable.localizedDescription); return }
+        let progress = UIAlertController(title: "Loading photo…", message: "Photos stored in iCloud may take longer to download.", preferredStyle: .alert)
+        var cancelled = false
+        var task: Task<Void, Never>?
+        progress.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in cancelled = true; task?.cancel() })
+        present(progress, animated: true)
+        provider.loadObject(ofClass: UIImage.self) { [weak self] object, error in
+            DispatchQueue.main.async {
+                guard let self else { return }
+                guard !cancelled else { return }
+                guard let image = object as? UIImage else {
+                    progress.dismiss(animated: true) { self.showError(error?.localizedDescription ?? OCRFailure.unreadable.localizedDescription) }
+                    return
+                }
+                progress.title = "Reading receipt on device…"; progress.message = nil
+                task = Task { @MainActor in
+                    do {
+                        let draft = try await ReceiptOCR.recognize([image])
+                        guard !Task.isCancelled, !cancelled else { return }
+                        progress.dismiss(animated: true) { completion(draft) }
+                    } catch {
+                        guard !Task.isCancelled, !cancelled else { return }
+                        progress.dismiss(animated: true) { self.showError(error.localizedDescription) }
+                    }
+                }
+            }
+        }
+    }
     func cell(_ title: String, detail: String? = nil, accessory: UITableViewCell.AccessoryType = .none, id: String? = nil, symbol: String? = nil) -> StoryboardDisplayCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: symbol.map { "Symbol-" + $0 } ?? "Cell") as! StoryboardDisplayCell
         cell.contentView.subviews.filter { $0.tag == 977 }.forEach { $0.removeFromSuperview() }

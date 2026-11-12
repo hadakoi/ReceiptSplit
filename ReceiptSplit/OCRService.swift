@@ -2,6 +2,7 @@ import SwiftData
 import Vision
 import VisionKit
 import UIKit
+import ImageIO
 
 struct OCRLine: Identifiable, Sendable {
     let id = UUID()
@@ -46,15 +47,22 @@ enum OCRFailure: LocalizedError {
 enum ReceiptOCR {
     static func recognize(_ images: [UIImage]) async throws -> OCRDraft {
         // Vision runs off the main thread; image pixels never leave this device.
-        let data = images.compactMap { $0.jpegData(compressionQuality: 0.95) }
         return try await Task.detached(priority: .userInitiated) {
+            let data = images.compactMap { $0.jpegData(compressionQuality: 0.95) }
+            guard !data.isEmpty else { throw OCRFailure.unreadable }
             var observations: [(String, Float)] = []
             for image in data {
+                guard let source = CGImageSourceCreateWithData(image as CFData, nil),
+                      let thumbnail = CGImageSourceCreateThumbnailAtIndex(source, 0, [
+                        kCGImageSourceCreateThumbnailFromImageAlways: true,
+                        kCGImageSourceCreateThumbnailWithTransform: true,
+                        kCGImageSourceThumbnailMaxPixelSize: 3000
+                      ] as CFDictionary) else { throw OCRFailure.unreadable }
                 let request = VNRecognizeTextRequest()
                 request.recognitionLevel = .accurate
                 request.usesLanguageCorrection = false
                 request.recognitionLanguages = ["en-US"]
-                try VNImageRequestHandler(data: image).perform([request])
+                try VNImageRequestHandler(cgImage: thumbnail).perform([request])
                 let boxes = (request.results ?? []).compactMap { result -> OCRTextBox? in
                     guard let candidate = result.topCandidates(1).first else { return nil }
                     return OCRTextBox(text: candidate.string, confidence: candidate.confidence, bounds: result.boundingBox)
@@ -90,8 +98,11 @@ enum ReceiptOCR {
         let tableItemRegex = try! NSRegularExpression(pattern: #"^\s*(.*?[A-Za-z\)])\s+(\d[\d,]*(?:\.\d{2})?(?:\s+\d[\d,]*(?:\.\d{2})?)*)\s*$"#)
         for (text, confidence) in observations {
             let normalized = text.lowercased()
-            if (normalized.contains("particular") || normalized.contains("item")) && (normalized.contains("qty") || normalized.contains("quantity")) && (normalized.contains("amount") || normalized.contains("rate")) { inItemTable = true; continue }
-            if normalized.contains("subtotal") || normalized.contains("sub total") { inItemTable = false }
+            let names = ["particular", "item", "description", "dish", "product", "menu"]
+            let measures = ["qty", "quantity", "rate", "price", "amount", "total"]
+            if names.contains(where: normalized.contains) && measures.contains(where: normalized.contains) { inItemTable = true; continue }
+            let compactLabel = normalized.replacingOccurrences(of: " ", with: "")
+            if normalized.contains("subtotal") || normalized.contains("sub total") || normalized.contains("total") || compactLabel.contains("cgst") || compactLabel.contains("sgst") || normalized.contains("tax") || normalized.contains("discount") || normalized.contains("service charge") || normalized.contains("round") { inItemTable = false }
             let range = NSRange(text.startIndex..., in: text)
             if inItemTable, let match = tableItemRegex.firstMatch(in: text, range: range), let nameRange = Range(match.range(at: 1), in: text), let valuesRange = Range(match.range(at: 2), in: text) {
                 let name = String(text[nameRange]).trimmingCharacters(in: .whitespacesAndNewlines)

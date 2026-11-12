@@ -52,7 +52,7 @@ final class DetailViewController: StoryboardTableController, VNDocumentCameraVie
             if VNDocumentCameraViewController.isSupported && p.row == 0 {
                 let scanner = VNDocumentCameraViewController(); scanner.delegate = self; present(scanner, animated: true)
             } else {
-                var config = PHPickerConfiguration(); config.filter = .images; config.selectionLimit = 1
+                var config = PHPickerConfiguration(); config.filter = .images; config.selectionLimit = 1; config.preferredAssetRepresentationMode = .current
                 let picker = PHPickerViewController(configuration: config); picker.delegate = self; present(picker, animated: true)
             }
         case 4 where p.row == 8: editReceipt()
@@ -83,14 +83,9 @@ final class DetailViewController: StoryboardTableController, VNDocumentCameraVie
         controller.dismiss(animated: true) { self.recognize(images) }
     }
     func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true)
-        guard let provider = results.first?.itemProvider, provider.canLoadObject(ofClass: UIImage.self) else { return }
-        provider.loadObject(ofClass: UIImage.self) { [weak self] object, error in
-            DispatchQueue.main.async {
-                guard let self else { return }
-                if let image = object as? UIImage { self.recognize([image]) }
-                else { self.showError(error?.localizedDescription ?? OCRFailure.unreadable.localizedDescription) }
-            }
+        picker.dismiss(animated: true) { [weak self] in
+            guard let self, let provider = results.first?.itemProvider else { return }
+            self.loadReceiptPhoto(provider) { [weak self] draft in self?.performSegue(withIdentifier: "reviewOCR", sender: draft) }
         }
     }
     func recognize(_ images: [UIImage]) {

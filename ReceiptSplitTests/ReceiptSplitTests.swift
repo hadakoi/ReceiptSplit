@@ -74,6 +74,18 @@ final class ReceiptSplitTests: XCTestCase {
         XCTAssertEqual(draft.charges.map(\.amount), [1800, 1800])
         XCTAssertEqual(draft.total, 75600)
     }
+    func testOCRSupportsDifferentItemHeadingsAndClosesTableAtCharges() {
+        for header in ["Description Qty Price Amount", "Dish Quantity Price", "Product Qty Total", "Menu Item Amount"] {
+            let draft = ReceiptOCR.parse([("Cafe", 1), (header, 1), ("Dosa 1 120 120", 1), ("Tea 2 30 60", 1), ("CGST 4.50", 1), ("SGST 4.50", 1), ("Total 189.00", 1)])
+            XCTAssertEqual(draft.lines.map(\.name), ["Dosa", "Tea"], header)
+            XCTAssertEqual(draft.lines.map(\.amount), [12000, 6000], header)
+            XCTAssertEqual(draft.lines.last?.quantity, 2, header)
+            XCTAssertEqual(draft.charges.map(\.amount), [450, 450], header)
+            XCTAssertEqual(draft.total, 18900, header)
+        }
+        let withoutHeading = ReceiptOCR.parse([("Cafe", 1), ("Coffee 120.00", 1), ("Total 120.00", 1)])
+        XCTAssertEqual(withoutHeading.lines.map(\.name), ["Coffee"])
+    }
     func testMoneyValidationAndExactParsing() {
         XCTAssertEqual(Money.parse("₹1,234.56"), 123456)
         XCTAssertEqual(Money.parse("0.01"), 1)
