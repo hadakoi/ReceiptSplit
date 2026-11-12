@@ -69,7 +69,11 @@ final class ReceiptsViewController: StoryboardTableController, UISearchResultsUp
         }
         guard !visible.isEmpty else { return cell(search.searchBar.text?.isEmpty == false ? "No matching receipts" : "Your next split starts here", detail: "Tap + to add your first receipt.") }
         let r = visible[indexPath.row]
-        return cell(r.merchant, detail: "\(SettlementStatus.isSettled(r) ? "Settled" : r.reviewed ? "Ready" : "Draft") · \(Money.format(r.total)) · \(r.date.formatted(date: .abbreviated, time: .omitted))", accessory: .disclosureIndicator, id: "receipt-" + r.merchant)
+        let settled = SettlementStatus.isSettled(r)
+        let row = cell(r.merchant, detail: "\(settled ? "Settled" : r.reviewed ? "Ready" : "Draft") · \(Money.format(r.total)) · \(r.date.formatted(date: .abbreviated, time: .omitted))", accessory: .disclosureIndicator, id: "receipt-" + r.merchant, symbol: settled ? "checkmark.seal.fill" : "receipt")
+        row.heading.textColor = settled ? .systemGreen : .label
+        row.detail.textColor = settled ? .systemGreen : .secondaryLabel
+        return row
     }
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

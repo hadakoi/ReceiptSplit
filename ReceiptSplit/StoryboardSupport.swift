@@ -57,6 +57,7 @@ class StoryboardTableController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: symbol.map { "Symbol-" + $0 } ?? "Cell") as! StoryboardDisplayCell
         cell.contentView.subviews.filter { $0.tag == 977 }.forEach { $0.removeFromSuperview() }
         cell.heading.text = title; cell.detail.text = detail; cell.detail.isHidden = detail == nil
+        cell.heading.textColor = .label; cell.detail.textColor = .secondaryLabel
         cell.heading.numberOfLines = 1; cell.heading.lineBreakMode = .byTruncatingTail; cell.heading.font = .preferredFont(forTextStyle: .body); cell.detail.numberOfLines = 1
         cell.accessoryType = accessory; cell.selectionStyle = .default
         cell.icon.isHidden = symbol == nil

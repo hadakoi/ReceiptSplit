@@ -236,6 +236,54 @@
                                     <outlet property="icon" destination="rowIcon-Receipts-symbol0-saved" id="row-icon-outlet-Receipts-symbol0-saved"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Symbol-checkmark.seal.fill" id="cell-Receipts-symbol0-saved-settled" customClass="StoryboardDisplayCell" customModule="ReceiptSplit" customModuleProvider="target">
+                                <rect key="frame" x="16" y="275.33333206176758" width="361" height="56"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cell-Receipts-symbol0-saved-settled" id="content-Receipts-symbol0-saved-settled">
+                                    <rect key="frame" x="0.0" y="0.0" width="361" height="56"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="checkmark.seal.fill" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="rowIcon-Receipts-symbol0-saved-settled">
+                                            <rect key="frame" x="20" y="14.666666666666668" width="24" height="25.333333333333332"/>
+                                            <color key="tintColor" systemColor="systemGreenColor"/>
+                                        </imageView>
+                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="rowStack-Receipts-symbol0-saved-settled">
+                                            <rect key="frame" x="56" y="8" width="285" height="40"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Settled receipt" lineBreakMode="tailTruncation" adjustsFontForContentSizeCategory="YES" id="label-Receipts-symbol0-saved-settled">
+                                                    <rect key="frame" x="0.0" y="0.0" width="285" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" text="Settled · ₹756.00" lineBreakMode="tailTruncation" adjustsFontForContentSizeCategory="YES" id="detail-Receipts-symbol0-saved-settled">
+                                                    <rect key="frame" x="0.0" y="22" width="285" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" style="UICTFontTextStyleSubhead"/>
+                                                    <color key="textColor" systemColor="secondaryLabelColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </stackView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="rowIcon-Receipts-symbol0-saved-settled" firstAttribute="centerY" secondItem="content-Receipts-symbol0-saved-settled" secondAttribute="centerY" id="row-icon-center-Receipts-symbol0-saved-settled"/>
+                                        <constraint firstItem="rowIcon-Receipts-symbol0-saved-settled" firstAttribute="height" constant="24" id="row-icon-height-Receipts-symbol0-saved-settled"/>
+                                        <constraint firstItem="rowIcon-Receipts-symbol0-saved-settled" firstAttribute="leading" secondItem="content-Receipts-symbol0-saved-settled" secondAttribute="leadingMargin" id="row-icon-leading-Receipts-symbol0-saved-settled"/>
+                                        <constraint firstItem="rowIcon-Receipts-symbol0-saved-settled" firstAttribute="width" constant="24" id="row-icon-width-Receipts-symbol0-saved-settled"/>
+                                        <constraint firstAttribute="bottom" secondItem="rowStack-Receipts-symbol0-saved-settled" secondAttribute="bottom" constant="8" id="row-stack-bottom-Receipts-symbol0-saved-settled"/>
+                                        <constraint firstItem="rowStack-Receipts-symbol0-saved-settled" firstAttribute="leading" secondItem="rowIcon-Receipts-symbol0-saved-settled" secondAttribute="trailing" constant="12" id="row-stack-leading-Receipts-symbol0-saved-settled"/>
+                                        <constraint firstItem="rowStack-Receipts-symbol0-saved-settled" firstAttribute="top" secondItem="content-Receipts-symbol0-saved-settled" secondAttribute="top" constant="8" id="row-stack-top-Receipts-symbol0-saved-settled"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="rowStack-Receipts-symbol0-saved-settled" secondAttribute="trailing" id="row-stack-trailing-Receipts-symbol0-saved-settled"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="detail" destination="detail-Receipts-symbol0-saved-settled" id="row-detail-outlet-Receipts-symbol0-saved-settled"/>
+                                    <outlet property="heading" destination="label-Receipts-symbol0-saved-settled" id="row-heading-outlet-Receipts-symbol0-saved-settled"/>
+                                    <outlet property="icon" destination="rowIcon-Receipts-symbol0-saved-settled" id="row-icon-outlet-Receipts-symbol0-saved-settled"/>
+                                </connections>
+                            </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Symbol-receipt" id="cell-Receipts-symbol1" customClass="StoryboardDisplayCell" customModule="ReceiptSplit" customModuleProvider="target">
                                 <rect key="frame" x="16" y="331.33333206176758" width="361" height="56"/>
                                 <autoresizingMask key="autoresizingMask"/>
